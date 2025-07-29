@@ -9,14 +9,21 @@ class HotelUser(User):
     otp = models.CharField(max_length = 10 , null = True , blank = True)
     is_verified = models.BooleanField(default = False)
 
+    class Meta:
+        db_table = 'hotel.user'
+
 
 class HotelVendor(User):
     phone_number =  models.CharField(unique = True, max_length= 100)
+    business_name = models.CharField(max_length = 100)
     profile_picture = models.ImageField(upload_to="profile")
     email_token = models.CharField(max_length = 100 ,null = True , blank=True)
     otp = models.CharField(max_length = 10 , null = True , blank = True)
 
     is_verified = models.BooleanField(default = False)
+
+    class Meta:
+        db_table = 'hotel.vendor'
 
 
 
@@ -35,6 +42,7 @@ class Hotel(models.Model):
     hotel_location = models.TextField()
     is_active = models.BooleanField(default = True)
 
+    
 
 class HotelImages(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete = models.CASCADE , related_name = "hotel_images")
