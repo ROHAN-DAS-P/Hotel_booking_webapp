@@ -31,6 +31,9 @@ class Ameneties(models.Model):
     name = models.CharField(max_length = 1000)
     icon = models.ImageField(upload_to="hotels")
 
+    def __str__(self):
+        return self.name
+
 class Hotel(models.Model):
     hotel_name  = models.CharField(max_length = 100)
     hotel_description = models.TextField()
@@ -42,7 +45,8 @@ class Hotel(models.Model):
     hotel_location = models.TextField()
     is_active = models.BooleanField(default = True)
 
-    
+    class Meta:
+        db_table = "hotel" 
 
 class HotelImages(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete = models.CASCADE , related_name = "hotel_images")
