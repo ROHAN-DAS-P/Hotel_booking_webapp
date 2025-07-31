@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect, HttpResponse
 from .models import HotelUser, HotelVendor, Hotel, Ameneties, HotelImages
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from .utils import generateRandomToken , sendEmailToken, sendOTPtoEmail
 import random
@@ -31,7 +31,6 @@ def login_page(request):
         hotel_user = authenticate(username = hotel_user[0].username , password=password)
 
         if hotel_user:
-            messages.success(request, "Login Success")
             login(request , hotel_user)
             return redirect('/account/login/')
 
@@ -142,7 +141,6 @@ def login_vendor(request):
         hotel_user = authenticate(username = hotel_user[0].username , password=password)
 
         if hotel_user:
-            messages.success(request, "Login Success")
             login(request , hotel_user)
             return redirect('/account/dashboard/')
 
@@ -259,8 +257,7 @@ def upload_images(request, slug):
 
 @login_required(login_url='login_vendor')
 def delete_image(request, id):
-    print(id)
-    print("#######")
+    
     hotel_image = HotelImages.objects.get(id = id)
     hotel_image.delete()
     messages.success(request, "Hotel Image deleted")
@@ -302,3 +299,10 @@ def edit_hotel(request, slug):
     
     # Render the edit_hotel.html template with hotel and amenities as context
     return render(request, 'vendor/edit_hotel.html', context={'hotel': hotel_obj, 'ameneties': ameneties})
+
+
+#account/views.py
+def logout_view(request):
+    logout(request)
+    messages.success(request, "Logout Success")
+    return redirect('/account/login/')

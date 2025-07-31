@@ -19,7 +19,7 @@
 
           <div class="mb-3">
             <div class="form-floating">
-                <textarea name="hotel_description" class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                <textarea name="hotel_description" id="flora" class="form-control" placeholder="Leave a comment here"></textarea>
                 <label for="floatingTextarea">Hotel Description</label>
               </div> </div>
               <div class="mb-3">
@@ -58,5 +58,9 @@
   </div>
   </div>
 
+
+    <script>
+	    var editor = new FroalaEditor('#flora');		
+    </script>
 
 {% endblock %}
