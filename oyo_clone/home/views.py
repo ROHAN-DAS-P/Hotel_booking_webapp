@@ -1,10 +1,14 @@
+from datetime import datetime
+
+from django.contrib import messages
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
 
 
 
-from accounts.models import Hotel
+from accounts.models import Hotel, HotelBooking, HotelUser
 
 
 def index(request):
@@ -22,7 +26,33 @@ def index(request):
 
 
 #home/views.py
-#other views
+# other views
 def hotel_details(request, slug):
     hotel = Hotel.objects.get(hotel_slug = slug)
+
+    if request.method == "POST":
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        start_date = datetime.strptime(start_date , '%Y-%m-%d')
+        end_date = datetime.strptime(end_date , '%Y-%m-%d')
+        days_count = (end_date - start_date).days
+
+        if days_count <= 0:
+            messages.warning(request, "Invalid Booking Date.")
+
+            return HttpResponseRedirect(request.path_info)
+
+
+        HotelBooking.objects.create(
+            hotel = hotel,
+            booking_user = HotelUser.objects.get(id = request.user.id),
+            booking_start_date = start_date,
+            booking_end_date =end_date,
+            price = hotel.hotel_offer_price * days_count
+        )
+        messages.warning(request, "Booking Captured.")
+
+        return HttpResponseRedirect(request.path_info)
+
+
     return render(request, 'hotel_detail.html', context = {'hotel' : hotel})

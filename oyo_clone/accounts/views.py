@@ -1,6 +1,7 @@
+import datetime
 from django.shortcuts import render
 from django.shortcuts import redirect, HttpResponse
-from .models import HotelUser, HotelVendor, Hotel, Ameneties, HotelImages
+from .models import HotelUser, HotelVendor, Hotel, Ameneties, HotelImages, HotelBooking
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
