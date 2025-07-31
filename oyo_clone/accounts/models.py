@@ -56,3 +56,5 @@ class HotelManager(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete = models.CASCADE , related_name = "hotel_managers")
     manager_name = models.CharField(max_length = 100)
     manager_contact = models.CharField(max_length = 100)
+
+
